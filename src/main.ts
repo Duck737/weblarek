@@ -46,7 +46,7 @@ cartModel.clearCart();
 console.log(`Товаров в корзине после очистки:`, cartModel.getTotalItems());
 
 // Покупатель
-customerModel.saveData({
+customerModel.setData({
   address: "abc",
   email: "@mail",
   payment: "cash",
@@ -57,7 +57,13 @@ customerModel.clearData();
 console.log(`Покупатель после очистки:`, customerModel.getData());
 
 // API
-const response = await shopApi.getProducts();
-console.log(response);
-productsModel.setItems(response.items);
-console.log(`Данные с сервера: `, productsModel.products);
+const loadProduct = async () => {
+  try {
+    const res = await shopApi.getProducts();
+    productsModel.setItems(res.items);
+    console.log(`Данные с сервера: `, productsModel.products);
+  } catch (err) {
+    console.log(err);
+  }
+};
+loadProduct();

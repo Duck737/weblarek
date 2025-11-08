@@ -6,7 +6,9 @@ export class Customer {
   private phoneNumber: string;
   private email: string;
 
-  saveData(data: Partial<ICustomer>): void {
+  constructor() {}
+
+  setData(data: Partial<ICustomer>): void {
     if (data.payment !== undefined) {
       this.payment = data.payment;
     }

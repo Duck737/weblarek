@@ -5,6 +5,8 @@ export class Products {
 
   private selectedProduct: IProduct | null;
 
+  constructor() {}
+
   setItems(products: IProduct[]): void {
     this.products = products;
   }
