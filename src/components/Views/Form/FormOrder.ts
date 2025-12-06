@@ -1,6 +1,6 @@
-import { TPayment } from "../../../../types";
-import { ensureElement } from "../../../../utils/utils";
-import { IEvents } from "../../Events";
+import { TPayment } from "../../../types";
+import { ensureElement } from "../../../utils/utils";
+import { IEvents } from "../../base/Events";
 import { Form, IForm } from "./Form";
 
 interface IFormOrder extends IForm {

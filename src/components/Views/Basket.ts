@@ -1,6 +1,6 @@
-import { ensureElement } from "../../../utils/utils";
-import { Component } from "../Component";
-import { IEvents } from "../Events";
+import { ensureElement } from "../../utils/utils";
+import { Component } from "../base/Component";
+import { IEvents } from "../base/Events";
 
 interface IBasket {
   list: HTMLElement[];
@@ -38,7 +38,6 @@ export class Basket extends Component<IBasket> {
     this.itemsPrice.textContent = `${value} синапсов`;
   }
 
-  // todo:
   set basketOrderButtonDisabled(disabled: boolean) {
     this.basketOrderButton.disabled = disabled;
   }

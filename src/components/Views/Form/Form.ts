@@ -1,6 +1,6 @@
-import { ensureElement } from "../../../../utils/utils";
-import { Component } from "../../Component";
-import { IEvents } from "../../Events";
+import { ensureElement } from "../../../utils/utils";
+import { Component } from "../../base/Component";
+import { IEvents } from "../../base/Events";
 
 export interface IForm {
   errors: string[];
@@ -23,8 +23,6 @@ export class Form<T extends IForm> extends Component<T> {
       this.container
     );
     this.formName = this.container.getAttribute("name") || "form";
-
-    // this.container.setAttribute('novalidate', 'true')
 
     this.container.addEventListener("input", (e: Event) => {
       const target = e.target as HTMLInputElement;

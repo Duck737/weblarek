@@ -7,6 +7,9 @@
 - src/ — исходные файлы проекта
 - src/components/ — папка с JS компонентами
 - src/components/base/ — папка с базовым кодом
+- src/components/Models/ - папка с моделями данных
+- src/components/Views/ - папка с представлениями
+- src/components/Communication/ - папка с API коммуникацией
 
 Важные файлы:
 
@@ -177,7 +180,7 @@ Presenter - презентер содержит основную логику п
 `constructor(events: IEvents, container: HTMLElement)` - принимает брокер событий и корневой DOM-элемент шапки.
 
 Поля класса:  
-`counterElement: HTMLElement` - отображает количество товаров в корзине.    
+`counterElement: HTMLElement` - отображает количество товаров в корзине.  
 `basketButton: HTMLButtonElement` - кнопка открытия корзины.
 
 Методы класса:  
@@ -350,10 +353,12 @@ Presenter - презентер содержит основную логику п
 Обрабатываемые события:
 
 - `catalog:changed` — обновление отображения каталога товаров.
-- `card:select` — открытие модального окна с информацией о товаре.
+- `product:selected` — открытие модального окна с информацией о товаре.
 - `basket:open` — открытие корзины.
 - `basket:changed` — обновление отображения корзины и счётчика.
+- `basket:removed` — удаление товара из корзины.
 - `basket:order` — открытие формы оформления заказа.
+- `order:paymentChanged` — изменение способа оплаты.
 - `order:submit` — переход к форме контактов.
 - `contacts:submit` — отправка заказа на сервер.
 - `form:input` — обновление данных покупателя при вводе.

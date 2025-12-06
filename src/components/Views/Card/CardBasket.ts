@@ -1,4 +1,4 @@
-import { ensureElement } from "../../../../utils/utils";
+import { ensureElement } from "../../../utils/utils";
 import { Card, ICard, ICardActions } from "./Card";
 
 interface ICardBasket extends ICard {

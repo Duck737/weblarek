@@ -1,5 +1,5 @@
-import { ensureElement } from "../../../../utils/utils";
-import { IEvents } from "../../Events";
+import { ensureElement } from "../../../utils/utils";
+import { IEvents } from "../../base/Events";
 import { Form, IForm } from "./Form";
 
 interface IFormContact extends IForm {

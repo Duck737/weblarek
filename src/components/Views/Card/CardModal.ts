@@ -1,5 +1,5 @@
-import { categoryMap, CDN_URL } from "../../../../utils/constants";
-import { ensureElement } from "../../../../utils/utils";
+import { categoryMap, CDN_URL } from "../../../utils/constants";
+import { ensureElement } from "../../../utils/utils";
 import { Card, ICard, ICardActions } from "./Card";
 
 interface ICardModal extends ICard {
