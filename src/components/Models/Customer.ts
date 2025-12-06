@@ -1,12 +1,13 @@
 import { ICustomer, IValidation, TPayment } from "../../types";
+import { IEvents } from "../base/Events";
 
 export class Customer {
-  private payment: TPayment;
-  private address: string;
-  private phoneNumber: string;
-  private email: string;
+  private payment: TPayment = "";
+  private address: string = "";
+  private phone: string = "";
+  private email: string = "";
 
-  constructor() {}
+  constructor(protected events: IEvents) {}
 
   setData(data: Partial<ICustomer>): void {
     if (data.payment !== undefined) {
@@ -15,19 +16,20 @@ export class Customer {
     if (data.address !== undefined) {
       this.address = data.address;
     }
-    if (data.phoneNumber !== undefined) {
-      this.phoneNumber = data.phoneNumber;
+    if (data.phone !== undefined) {
+      this.phone = data.phone;
     }
     if (data.email !== undefined) {
       this.email = data.email;
     }
+    this.events.emit("customer:updated");
   }
 
   getData(): ICustomer {
     return {
       payment: this.payment,
       address: this.address,
-      phoneNumber: this.phoneNumber,
+      phone: this.phone,
       email: this.email,
     };
   }
@@ -35,8 +37,9 @@ export class Customer {
   clearData(): void {
     this.payment = "";
     this.address = "";
-    this.phoneNumber = "";
+    this.phone = "";
     this.email = "";
+    this.events.emit("customer:updated");
   }
 
   validate(): IValidation {
@@ -48,8 +51,8 @@ export class Customer {
     if (!this.address || this.address.trim() === "") {
       errors.address = "Укажите адрес";
     }
-    if (!this.phoneNumber || this.phoneNumber.trim() === "") {
-      errors.phoneNumber = "Укажите телефон";
+    if (!this.phone || this.phone.trim() === "") {
+      errors.phone = "Укажите телефон";
     }
     if (!this.email || this.email.trim() === "") {
       errors.email = "Укажите email";

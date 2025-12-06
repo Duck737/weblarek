@@ -144,7 +144,7 @@ Presenter - презентер содержит основную логику п
 Поля класса:
 `payment: TPayment` - выбранный способ оплаты.
 `address: string` - адрес доставки.
-`phoneNumber: string` - контактный номер телефона покупателя.
+`phone: string` - контактный номер телефона покупателя.
 `email: string` - адрес электронной почты покупателя.
 
 Методы класса:
@@ -152,6 +152,187 @@ Presenter - презентер содержит основную логику п
 `getData(): ICustomer` - возвращает объект с текущими данными покупателя.
 `clearData(): void` - очищает все данные покупателя, обнуляя поля.
 `validate(): IValidation` - проверяет корректность введённых данных.
+
+### View | Слой представления
+Отвечает за отображение на странице переданных данных.
+
+#### Класс Header
+Отвечает за отображение "шапки" страницы: кнопки корзины и счетчика товаров.
+
+Конструктор:
+`constructor(events: IEvents, container: HTMLElement)` - принимает брокер событий и корневой DOM-элемент шапки.
+
+Поля класса:
+`counterElement: HTMLElement` - отображает количество товаров в корзине.
+`basketButton: HTMLButtonElement` - кнопка открытия корзины.
+
+Методы класса:
+`set counter(value: number): void` - обновляет текстовое содержание элемента header__basket-counter значением количества товаров.
+
+#### Класс Gallery
+Отвечает за отображение каталога товаров на главной странице.
+
+Конструктор:
+`constructor(container: HTMLElement)` - принимает корневой DOM-элемент каталога(<main class="gallery">).
+
+Класс не содержит собственных полей.
+Использует поле container, унаследованное от Component.
+
+Методы класса:
+`set items(items: HTMLElement[]): void` - Заменяет содержимое каталога массивом переданных карточек.
+
+#### Класс Modal
+Отвечает за отображение модального окна, управление его состоянием и замену содержимого.
+
+Конструктор:
+`constructor(events: IEvents, container: HTMLElement)` - Принимает брокер событий и корневой DOM-элемент модального окна.
+
+Поля класса:
+`modalCloseButton: HTMLButtonElement` - кнопка закрытия модального окна.
+`modalContent: HTMLElement` - область контента модального окна.
+
+Методы класса: 
+`set content(value: HTMLElement): void` - заменяет содержимое модального окна.
+`openModalWindow(): void` - открывает модальное окно, добавляя класс `modal_active` на контейнер.
+`closeModalWindow(): void` - закрывает модальное окно, удаляя класс `modal_active` с контейнера.
+
+#### Класс Card
+Базовый UI-компонент карточки товара. Он отвечает за отображение заголовка карточки и её цены.
+
+Конструктор:
+`constructor(container: HTMLElement)` - Находит элементы заголовка и цены в контейнере.
+
+Поля класса:
+`cardTitle: HTMLElement` - элемент заголовка (`.card__title`).
+`cardPrice: HTMLElement` - элемент цены (`.card__price`).
+
+Методы класса:
+`set title(value: string)` - устанавливает название карточки.
+`set price(value: number | null)` - устанавливает цену/
+
+#### Класс CardBasket
+Отвечает за отображение карточки товара в корзине. Наследуется от Card.
+
+Конструктор:
+`constructor(container: HTMLElement, actions?: ICardActions)` - принимает контейнер карточки и объект с обработчиком клика для кнопки удаления.
+
+Поля класса:
+`basketCardIndex: HTMLElement` - элемент для отображения порядкового номера товара в корзине.
+`basketRemoveButton: HTMLButtonElement` - кнопка удаления товара из корзины.
+
+Методы класса:
+`set index(value: number)` - устанавливает порядковый номер товара.
+
+#### Класс CardCatalog
+Отвечает за отображение карточки товара в каталоге на главной странице. Наследуется от Card.
+
+Конструктор:
+`constructor(container: HTMLElement, actions?: ICardActions)` - принимает контейнер карточки и объект с обработчиком клика.
+
+Поля класса:
+`imageElement: HTMLImageElement` - изображение товара.
+`categoryElement: HTMLElement` - категория товара.
+
+Методы класса:
+`set category(value: string)` - устанавливает категорию и применяет соответствующий CSS-класс.
+`set image(value: string)` - устанавливает изображение товара.
+
+#### Класс CardModal
+Отвечает за отображение детальной информации о товаре в модальном окне. Наследуется от Card.
+
+Конструктор:
+`constructor(container: HTMLElement, actions?: ICardActions)` - принимает контейнер карточки и объект с обработчиком клика для кнопки покупки.
+
+Поля класса:
+`cardImage: HTMLImageElement` - изображение товара.
+`cardCategory: HTMLElement` - категория товара.
+`cardDescription: HTMLElement` - описание товара.
+`cardButton: HTMLButtonElement` - кнопка добавления в корзину.
+
+Методы класса:
+`set category(value: string)` - устанавливает категорию товара.
+`set image(value: string)` - устанавливает изображение товара.
+`set description(value: string)` - устанавливает описание товара.
+`set addButtonText(value: string)` - устанавливает текст кнопки.
+`set buttonDisabled(value: boolean)` - блокирует или разблокирует кнопку.
+
+#### Класс Form
+Базовый класс для всех форм приложения. Наследуется от Component.
+
+Конструктор:
+`constructor(events: IEvents, container: HTMLElement)` - принимает брокер событий и контейнер формы.
+
+Поля класса:
+`formErrors: HTMLElement` - элемент для отображения ошибок валидации.
+`formButton: HTMLButtonElement` - кнопка отправки формы.
+`formName: string` - имя формы для генерации событий.
+
+Методы класса:
+`set errors(errors: string[])` - отображает список ошибок.
+`set buttonDisabled(valid: boolean)` - управляет доступностью кнопки отправки.
+
+#### Класс FormOrder
+Форма выбора способа оплаты и ввода адреса доставки. Наследуется от Form.
+
+Конструктор:
+`constructor(events: IEvents, container: HTMLElement)` - принимает брокер событий и контейнер формы.
+
+Поля класса:
+`paymentButtons: HTMLButtonElement[]` - кнопки выбора способа оплаты.
+`inputAddress: HTMLInputElement` - поле ввода адреса.
+
+Методы класса:
+`set payment(value: TPayment)` - устанавливает активную кнопку способа оплаты.
+`set address(value: string)` - устанавливает значение поля адреса.
+
+#### Класс FormContact
+Форма ввода контактных данных покупателя (email и телефон). Наследуется от Form.
+
+Конструктор:
+`constructor(events: IEvents, container: HTMLElement)` - принимает брокер событий и контейнер формы.
+
+Поля класса:
+`inputEmail: HTMLInputElement` - поле ввода email.
+`inputPhone: HTMLInputElement` - поле ввода телефона.
+
+Методы класса:
+`set email(value: string)` - устанавливает значение поля email.
+`set phone(value: string)` - устанавливает значение поля телефона.
+
+#### Класс OrderSuccess
+Отвечает за отображение сообщения об успешном оформлении заказа.
+
+Конструктор:
+`constructor(events: IEvents, container: HTMLElement)` - принимает брокер событий и контейнер.
+
+Поля класса:
+`orderTitle: HTMLElement` - заголовок сообщения.
+`orderDescription: HTMLElement` - текст с суммой списания.
+`orderCloseButton: HTMLButtonElement` - кнопка закрытия окна.
+
+Методы класса:
+`set totalPrice(value: number)` - устанавливает сумму списанных средств.
+
+### Презентер
+
+Код презентера находится в файле `src/main.ts`. Презентер связывает модели данных и представления через брокер событий EventEmitter.
+
+Основные функции презентера:
+- Инициализация всех компонентов приложения (моделей, представлений).
+- Настройка обработчиков событий для связи моделей и представлений.
+- Загрузка начальных данных с сервера.
+
+Обрабатываемые события:
+- `catalog:changed` — обновление отображения каталога товаров.
+- `card:select` — открытие модального окна с информацией о товаре.
+- `basket:open` — открытие корзины.
+- `basket:changed` — обновление отображения корзины и счётчика.
+- `basket:order` — открытие формы оформления заказа.
+- `order:submit` — переход к форме контактов.
+- `contacts:submit` — отправка заказа на сервер.
+- `form:input` — обновление данных покупателя при вводе.
+- `customer:updated` — обновление форм при изменении данных покупателя.
+- `success:confirm` — закрытие окна успешного заказа.
 
 ### Слой коммуникации
 
@@ -165,5 +346,5 @@ Presenter - презентер содержит основную логику п
 `constructor(api: IApi)` - принимает объект класса Api, который используется для выполнения запросов к серверу.
 
 Методы класса:
-`async getProducts(): Promise<IProductListResponse[]>` - выполняет `GET` запрос к серверу по адресу и возвращает массив товаров.
+`async getProducts(): Promise<IProductListResponse>` - выполняет `GET` запрос к серверу по адресу и возвращает массив товаров.
 `async sendOrder(orderData: IOrderData): Promise<IOrderDataResponse>` - отправляет данные о заказе на сервер методом `POST`.
