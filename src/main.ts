@@ -81,7 +81,12 @@ events.on("product:selected", () => {
     content: cardPreview.render({
       ...item,
       buttonDisabled: item.price === null,
-      addButtonText: isInCart ? "Удалить из корзины" : "В корзину",
+      addButtonText:
+        item.price === null
+          ? "Недоступно"
+          : isInCart
+          ? "Удалить из корзины"
+          : "В корзину",
     }),
   });
   modal.openModalWindow();
@@ -201,10 +206,6 @@ events.on("customer:updated", () => {
 
 events.on("basket:order", () => {
   currentStep = "order";
-  if (cartModel.getTotalItems() === 0) {
-    return;
-  }
-
   const customerData = customerModel.getData();
   const validation = customerModel.validate();
   const errors = [validation.payment, validation.address].filter(
